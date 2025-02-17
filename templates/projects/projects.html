@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ShatApp - Real-time Chat Application">
+    <title>{{ project.name }}- Project Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white">
+    
+    <!-- Navbar -->
+    <nav class="p-5 bg-gray-800 flex justify-between items-center fixed w-full top-0 z-50">
+        <h1 class="text-2xl font-bold">Winner</h1>
+        <a href="/" class="hover:text-purple-400">Back to Portfolio</a>
+    </nav>
+    
+    <!-- Project Details Section -->
+    <section class="p-10 pt-24 text-center">
+        <h2 class="text-4xl font-bold text-purple-400">{{ project.name }}</h2>
+        <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
+            {{ project.description }}
+        </p>
+        <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
+            This project was developed using cutting-edge technologies, including Python Django, Django WebSockets, Redis, PostgreSQL, HTML, Tailwind CSS, and HTMX. The development process was both challenging and rewarding, enhancing my expertise in real-time communication, database management, and frontend interactivity.
+        </p>
+        <a href="{{ project.project_link }}"  target="_blank" class="mt-4 inline-block px-6 py-2 bg-purple-600 rounded-full hover:bg-purple-700">View Live Project</a>
+    </section>
+    
+    <!-- Technologies Used -->
+    <section class="p-10 text-center">
+        <h3 class="text-3xl font-bold text-purple-400">Technologies Used</h3>
+
+        <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {% for tech in technologies %}
+                <span class="bg-gray-800 p-3 rounded-lg">{{ tech }}</span>
+            {% endfor %}
+        </div>
+    </section>
+    
+     
+    <section class="mt-10 p-5">
+        <h3 class="text-3xl font-bold text-purple-400">Project Images</h3>
+    
+        <!-- Mobile View (Slider) -->
+        <div class="mt-6 relative w-full overflow-hidden lg:hidden">
+            <div class="flex transition-transform duration-500" id="image-slider">
+                {% for image in images %}
+                    <div class="w-full flex-shrink-0">
+                        <img src="{{ image.image.url }}" alt="{{ project.name }}" class="w-full h-64 object-cover rounded-lg">
+                    </div>
+                {% empty %}
+                    <p class="text-gray-300">No additional images available.</p>
+                {% endfor %}
+            </div>
+    
+            <!-- Slider Controls -->
+            <button id="prev" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-purple-600">
+                &#10094;
+            </button>
+            <button id="next" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-purple-600">
+                &#10095;
+            </button>
+        </div>
+    
+        <!-- Desktop View (4-Grid) -->
+        <div class="mt-6 hidden lg:grid lg:grid-cols-4 gap-6">
+            {% for image in images %}
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <img src="{{ image.image.url }}" alt="{{ project.name }}" class="w-full h-64 object-cover rounded-lg">
+                </div>
+            {% empty %}
+                <p class="text-gray-300 col-span-full">No additional images available.</p>
+            {% endfor %}
+        </div>
+    
+    </section>
+    
+
+    
+    <!-- Footer -->
+    <footer class="p-5 bg-gray-800 text-center mt-10">
+        <p class="text-gray-400">© 2025 Winner. All Rights Reserved.</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('#image-slider img');
+            const slider = document.getElementById('image-slider');
+            let index = 0;
+    
+            // Set initial image position
+            slider.style.transform = `translateX(-${index * 100}%)`;
+    
+            // Function to show the next image
+            const showNextImage = () => {
+                index = (index + 1) % images.length;
+                slider.style.transform = `translateX(-${index * 100}%)`;
+            };
+    
+            // Function to show the previous image
+            const showPrevImage = () => {
+                index = (index - 1 + images.length) % images.length;
+                slider.style.transform = `translateX(-${index * 100}%)`;
+            };
+    
+            // Automatically move to the next image every 3 seconds
+            setInterval(showNextImage, 3000);
+    
+            // Attach events to buttons
+            document.getElementById('next').addEventListener('click', showNextImage);
+            document.getElementById('prev').addEventListener('click', showPrevImage);
+        });
+    </script>
+</body>
+</html>

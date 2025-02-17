@@ -44,7 +44,7 @@ if ENVIRONMENT == 'development':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://portfolio-0k3f.onrender.com','*']
 
 CRSF_TRUSTED_ORIGIN = ['https://*']
 
@@ -104,7 +104,7 @@ DATABASES = {
 }
 
 
-POSTGRESS_LOCALLY = False
+POSTGRESS_LOCALLY = True
 if ENVIRONMENT == 'production' or POSTGRESS_LOCALLY == True:
         DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 

@@ -8,13 +8,12 @@ class Project(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     short_description = models.CharField(max_length=155, blank=True)
     description = models.TextField()
-    preview_image = models.ImageField(upload_to='projects/previews/')
     if settings.USE_CLOUDINARY:
         preview_image = CloudinaryField('projects/previews/', transformation=[
                 {'width': 800, 'height': 800, 'crop': 'limit', 'quality': 'auto', 'fetch_format': 'webp'}
             ], default='static/images/Screenshot_21.png')
     else:
-        image = models.ImageField(upload_to='products/', blank=True, null=True)
+        preview_image = models.ImageField(upload_to='projects/previews/', blank=True, null=True)
     technologies = models.TextField(help_text="Enter technologies separated by commas")
     images = models.ManyToManyField('ProjectImage', related_name='project_images', blank=True,)
     project_link = models.URLField()
@@ -36,7 +35,7 @@ class ProjectImage(models.Model):
     if settings.USE_CLOUDINARY:
         image = CloudinaryField('projects/images/', transformation=[
                 {'width': 800, 'height': 800, 'crop': 'limit', 'quality': 'auto', 'fetch_format': 'webp'}
-            ], default='static/Oil_and_GAS.jpg')
+            ], default='static/images/Screenshot_21.png')
     else:
         image = models.ImageField(upload_to='projects/images/', blank=True, null=True)
 

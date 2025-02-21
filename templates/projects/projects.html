@@ -47,7 +47,9 @@
             <div class="flex transition-transform duration-500" id="image-slider">
                 {% for image in images %}
                     <div class="w-full flex-shrink-0">
-                        <img src="{{ image.image.url }}" alt="{{ project.name }}" class="w-full h-64 object-cover rounded-lg">
+                        <a href="{{ image.image.url }}" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ image.image.url }}" alt="{{ project.name }}" class="w-full h-64 object-cover rounded-lg">
+                        </a>
                     </div>
                 {% empty %}
                     <p class="text-gray-300">No additional images available.</p>
@@ -67,14 +69,16 @@
         <div class="mt-6 hidden lg:grid lg:grid-cols-4 gap-6">
             {% for image in images %}
                 <div class="bg-gray-800 p-4 rounded-lg">
-                    <img src="{{ image.image.url }}" alt="{{ project.name }}" class="w-full h-64 object-cover rounded-lg">
+                    <a href="{{ image.image.url }}" target="_blank" rel="noopener noreferrer">
+                        <img src="{{ image.image.url }}" alt="{{ project.name }}" class="w-full h-64 object-cover rounded-lg">
+                    </a>
                 </div>
             {% empty %}
                 <p class="text-gray-300 col-span-full">No additional images available.</p>
             {% endfor %}
         </div>
-    
     </section>
+    
     
 
     

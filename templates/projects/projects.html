@@ -19,7 +19,7 @@
     <section class="p-10 pt-24 text-center">
         <h2 class="text-4xl font-bold text-purple-400">{{ project.name }}</h2>
         <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
-            {{ project.description }}
+            {{ project.description|safe }}
         </p>
         <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
             This project was developed using cutting-edge technologies, including Python Django, Django WebSockets, Redis, PostgreSQL, HTML, Tailwind CSS, and HTMX. The development process was both challenging and rewarding, enhancing my expertise in real-time communication, database management, and frontend interactivity.

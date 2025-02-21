@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ShatApp - Real-time Chat Application">
-    <title>{{ project.name }}- Project Details</title>
+    <title>{{ project.name }} | My Portfolio</title>
+    <meta name="description" content="{{ project.short_description }}">
+    <meta property="og:title" content="{{ project.name }}">
+    <meta property="og:description" content="{{ project.short_description }}">
+    <meta property="og:image" content="{{ project.preview_image.url }}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 text-white">

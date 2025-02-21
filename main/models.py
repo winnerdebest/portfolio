@@ -17,6 +17,8 @@ class Project(models.Model):
     technologies = models.TextField(help_text="Enter technologies separated by commas")
     images = models.ManyToManyField('ProjectImage', related_name='project_images', blank=True,)
     project_link = models.URLField()
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return self.name

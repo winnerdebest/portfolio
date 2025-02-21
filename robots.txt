@@ -1,0 +1,6 @@
+ROBOTS_TXT = """
+User-agent: *
+Disallow: /admin/
+Allow: /
+Sitemap: https://portfolio-0k3f.onrender.com/sitemap.xml
+"""

@@ -46,6 +46,9 @@ else:
 
 ALLOWED_HOSTS = ['https://portfolio-0k3f.onrender.com','*']
 
+SITE_URL = env('SITE_URL')
+
+
 CRSF_TRUSTED_ORIGIN = ['https://*']
 
 
@@ -58,6 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     'main',
 ]
 

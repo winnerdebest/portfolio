@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -44,7 +43,7 @@ if ENVIRONMENT == 'development':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['https://portfolio-0k3f.onrender.com','*']
+ALLOWED_HOSTS = ['https://portfolio-0k3f.onrender.com', '*']
 
 SITE_URL = env('SITE_URL')
 
@@ -108,9 +107,6 @@ DATABASES = {
 }
 
 
-POSTGRESS_LOCALLY = True
-if ENVIRONMENT == 'production' or POSTGRESS_LOCALLY == True:
-        DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
 
 

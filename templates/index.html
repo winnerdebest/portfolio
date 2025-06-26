@@ -1,114 +1,634 @@
 {% load static %}
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="en" x-data="{ darkMode: true, mobileMenuOpen: false }" :class="{'dark': darkMode}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Winner's Portfolio - Full-Stack Developer specializing in Python, Django, and Tailwind CSS.">
-    <meta name="keywords" content="Full-Stack Developer, Python, Django, Tailwind CSS, Web Development">
+    <meta name="description" content="Winner's Portfolio - Full-Stack Developer specializing in Python, Django, and modern web technologies.">
+    <meta name="keywords" content="Full-Stack Developer, Python, Django, JavaScript, Web Development">
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
     <link rel="manifest" href="/site.webmanifest">
     <meta name="author" content="Winner">
-    <title>Winner's Portfolio</title>
+    <title>Winner | Full-Stack Developer</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+    <style>
+        @media (max-width: 640px) {
+            .mobile-px-4 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .mobile-py-8 {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+            .mobile-text-center {
+                text-align: center;
+            }
+            .mobile-flex-col {
+                flex-direction: column;
+            }
+            .mobile-w-full {
+                width: 100%;
+            }
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            border-radius: 2px;
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+        @keyframes blob {
+            0% {
+                transform: translate(0px, 0px) scale(1);
+            }
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+        }
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
 </head>
-<body class="bg-gray-900 text-white">
-    
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
     <!-- Navbar -->
-    <nav class="p-5 bg-gray-800 flex justify-between items-center fixed w-full top-0 z-50">
-        <h1 class="text-2xl font-bold">Winner</h1>
-        <ul class="hidden md:flex space-x-6">
-            <li><a href="#about" class="hover:text-purple-400">About</a></li>
-            <li><a href="#skills" class="hover:text-purple-400">Skills</a></li>
-            <li><a href="#projects" class="hover:text-purple-400">Projects</a></li>
-            <li><a href="#experience" class="hover:text-purple-400">Experience</a></li>
-            <li><a href="#contact" class="hover:text-purple-400">Contact</a></li>
-        </ul>
+    <nav class="fixed w-full top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold gradient-text">Winner</span>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="hover:text-purple-500 dark:hover:text-purple-400 transition-colors">About</a>
+                    <a href="#skills" class="hover:text-purple-500 dark:hover:text-purple-400 transition-colors">Skills</a>
+                    <a href="#projects" class="hover:text-purple-500 dark:hover:text-purple-400 transition-colors">Projects</a>
+                    <a href="#experience" class="hover:text-purple-500 dark:hover:text-purple-400 transition-colors">Experience</a>
+                    <a href="#contact" class="hover:text-purple-500 dark:hover:text-purple-400 transition-colors">Contact</a>
+                    
+                    <!-- Dark mode toggle -->
+                    <button @click="darkMode = !darkMode" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <svg x-show="darkMode" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" />
+                        </svg>
+                        <svg x-show="!darkMode" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <svg x-show="!mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg x-show="mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">About</a>
+                <a href="#skills" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">Skills</a>
+                <a href="#projects" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">Projects</a>
+                <a href="#experience" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">Experience</a>
+                <a href="#contact" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">Contact</a>
+                <div class="px-3 py-2">
+                    <button @click="darkMode = !darkMode" class="flex items-center focus:outline-none">
+                        <span class="mr-2 text-sm text-gray-800 dark:text-gray-200">Dark Mode</span>
+                        <span class="relative inline-flex items-center h-6 rounded-full w-11 bg-gray-200 dark:bg-gray-700">
+                            <span
+                                :class="{
+                                    'translate-x-6': darkMode,
+                                    'translate-x-1': !darkMode
+                                }"
+                                class="inline-block w-4 h-4 transform transition rounded-full bg-white dark:bg-purple-400"
+                            ></span>
+                        </span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
     </nav>
     
     <!-- Hero Section -->
-    <section class="h-screen flex flex-col justify-center items-center text-center px-4 pt-20">
-        <img src="https://res.cloudinary.com/dvlfnmxxw/image/upload/v1739808420/blusmnaxpvnc62xeopf4.jpg" alt="Winner's Picture" class="w-32 h-32 rounded-full object-cover mb-4 border-4 border-purple-500">
-        <h2 class="text-4xl font-bold">Hi, I'm Winner</h2>
-        <p class="text-lg text-gray-400 mt-2">Full-Stack Developer | Python | Django | Tailwind</p>
-        <a href="#projects" class="mt-4 px-6 py-2 bg-purple-600 rounded-full hover:bg-purple-700">View Projects</a>
+    <section class="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-16 pb-20 relative overflow-hidden mobile-px-4 mobile-py-8">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 dark:from-purple-900/20 dark:to-pink-900/20"></div>
+            <div class="absolute top-0 right-0 w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000 hidden md:block"></div>
+            <div class="absolute top-0 left-0 w-64 h-64 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob hidden md:block"></div>
+            <div class="absolute bottom-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-4000 hidden md:block"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto mobile-w-full">
+            <img src="https://res.cloudinary.com/dvlfnmxxw/image/upload/v1739808420/blusmnaxpvnc62xeopf4.jpg" alt="Winner's Picture" 
+                 class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mb-6 mx-auto border-4 border-purple-500 shadow-lg">
+            
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 mobile-text-center">
+                <span class="gradient-text">Winner OrluVictor</span>
+            </h1>
+            
+            <div x-data="{
+    texts: ['Full-Stack Developer', 'Python Enthusiast', 'Django Expert', 'Problem Solver'],
+    currentIndex: 0,
+    currentText() {
+        return this.texts[this.currentIndex];
+    },
+    init() {
+        setInterval(() => {
+            this.currentIndex = (this.currentIndex + 1) % this.texts.length;
+        }, 2000);
+    }
+}" x-init="init()" class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-8 h-8 text-center">
+    <span x-text="currentText()"></span>
+    <span class="cursor-blink">|</span>
+</div>
+
+<style>
+.cursor-blink {
+    animation: blink 1s steps(2, start) infinite;
+}
+@keyframes blink {
+    to {
+        visibility: hidden;
+    }
+}
+</style>
+
+            
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mobile-w-full mobile-flex-col">
+                <a href="#projects" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-white font-medium hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl mobile-w-full mobile-text-center">
+                    View My Work
+                </a>
+                <a href="#contact" class="px-6 py-3 border border-purple-500 text-purple-500 dark:text-purple-400 rounded-full font-medium hover:bg-purple-500 hover:text-white dark:hover:text-white transition-all mobile-w-full mobile-text-center">
+                    Contact Me
+                </a>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+            <a href="#about" class="animate-bounce inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:bg-purple-500 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
     </section>
     
     <!-- About Section -->
-    <section id="about" class="p-10 text-center">
-        <h2 class="text-3xl font-bold text-purple-400">About Me</h2>
-        <p class="mt-4 text-gray-300">I'm a passionate full-stack developer specializing in Python and Django. I love building scalable web apps and exploring new technologies. My goal is to create intuitive, high-performing applications that make a real impact.</p>
+    <section id="about" class="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto mobile-px-4 mobile-py-8">
+        <h2 class="text-3xl font-bold text-center mb-16 section-title mobile-mb-8">About Me</h2>
+        
+        <div class="grid md:grid-cols-2 gap-12 items-center mobile-flex-col">
+            <div class="order-2 md:order-1 mobile-order-2">
+                <p class="text-lg mb-6 text-gray-600 dark:text-gray-300 mobile-text-center">
+                    I'm a passionate full-stack developer with expertise in Python and Django. I specialize in building scalable, performant web applications that deliver exceptional user experiences.
+                </p>
+                <p class="text-lg mb-6 text-gray-600 dark:text-gray-300 mobile-text-center">
+                    With a strong foundation in both frontend and backend technologies, I bridge the gap between design and technical implementation. My approach combines clean code principles with modern development practices.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
+                        <span>Python & Django Development</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-pink-500 mr-2"></div>
+                        <span>RESTful API Design</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
+                        <span>Modern Frontend</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-1 md:order-2 relative mobile-order-1">
+                <div class="relative rounded-xl overflow-hidden shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Coding" class="w-full h-auto">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent flex items-end p-6">
+                        <div>
+                            <h3 class="text-white text-xl font-bold">Coding is my passion</h3>
+                            <p class="text-gray-300">Turning ideas into functional, beautiful applications</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
-
+    
     <!-- Skills Section -->
-    <section id="skills" class="p-10 text-center">
-        <h2 class="text-3xl font-bold text-purple-400">Skills</h2>
-        <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            <span class="bg-gray-800 p-3 rounded-lg">Python</span>
-            <span class="bg-gray-800 p-3 rounded-lg">Django</span>
-            <span class="bg-gray-800 p-3 rounded-lg">API Development</span>
-            <span class="bg-gray-800 p-3 rounded-lg">Tailwind CSS</span>
-            <span class="bg-gray-800 p-3 rounded-lg">HTML</span>
-            <span class="bg-gray-800 p-3 rounded-lg">WebSockets</span>
+    <section id="skills" class="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto bg-gray-50 dark:bg-gray-800 rounded-3xl mobile-px-4 mobile-py-8">
+        <h2 class="text-3xl font-bold text-center mb-16 section-title mobile-mb-8">My Skills</h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mobile-gap-4">
+            <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false" 
+                 class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md card-hover flex flex-col items-center mobile-p-4">
+                <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mb-4 mobile-w-12 mobile-h-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600 dark:text-purple-400 mobile-h-6 mobile-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-lg mb-2 mobile-text-base">Python</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-center text-sm mobile-text-xs">Backend development, scripting, automation</p>
+            </div>
+            
+            <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false" 
+                 class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md card-hover flex flex-col items-center mobile-p-4">
+                <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-4 mobile-w-12 mobile-h-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600 dark:text-green-400 mobile-h-6 mobile-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-lg mb-2 mobile-text-base">Django</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-center text-sm mobile-text-xs">Web frameworks, ORM, authentication</p>
+            </div>
+            
+            <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false" 
+                 class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md card-hover flex flex-col items-center mobile-p-4">
+                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mb-4 mobile-w-12 mobile-h-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600 dark:text-blue-400 mobile-h-6 mobile-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-lg mb-2 mobile-text-base">JavaScript</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-center text-sm mobile-text-xs">Frontend logic, interactivity</p>
+            </div>
+            
+            <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false" 
+                 class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md card-hover flex flex-col items-center mobile-p-4">
+                <div class="w-16 h-16 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center mb-4 mobile-w-12 mobile-h-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600 dark:text-yellow-400 mobile-h-6 mobile-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-lg mb-2 mobile-text-base">Tailwind CSS</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-center text-sm mobile-text-xs">Utility-first CSS, responsive design</p>
+            </div>
+            
+            <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false" 
+                 class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md card-hover flex flex-col items-center mobile-p-4">
+                <div class="w-16 h-16 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mb-4 mobile-w-12 mobile-h-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600 dark:text-red-400 mobile-h-6 mobile-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-lg mb-2 mobile-text-base">UI/UX Design</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-center text-sm mobile-text-xs">User interfaces, experience design</p>
+            </div>
+            
+            <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false" 
+                 class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md card-hover flex flex-col items-center mobile-p-4">
+                <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center mb-4 mobile-w-12 mobile-h-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600 dark:text-indigo-400 mobile-h-6 mobile-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-lg mb-2 mobile-text-base">Problem Solving</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-center text-sm mobile-text-xs">Algorithms, debugging, optimization</p>
+            </div>
+            
+            <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false" 
+                 class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md card-hover flex flex-col items-center mobile-p-4">
+                <div class="w-16 h-16 bg-pink-100 dark:bg-pink-900 rounded-full flex items-center justify-center mb-4 mobile-w-12 mobile-h-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-600 dark:text-pink-400 mobile-h-6 mobile-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-lg mb-2 mobile-text-base">REST APIs</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-center text-sm mobile-text-xs">Endpoint design, documentation</p>
+            </div>
+            
+            <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false" 
+                 class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-md card-hover flex flex-col items-center mobile-p-4">
+                <div class="w-16 h-16 bg-teal-100 dark:bg-teal-900 rounded-full flex items-center justify-center mb-4 mobile-w-12 mobile-h-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-600 dark:text-teal-400 mobile-h-6 mobile-w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                    </svg>
+                </div>
+                <h3 class="font-bold text-lg mb-2 mobile-text-base">Database Design</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-center text-sm mobile-text-xs">SQL, ORM, data modeling</p>
+            </div>
         </div>
     </section>
     
     <!-- Projects Section -->
-    <section id="projects" class="p-10">
-        <h2 class="text-3xl font-bold text-purple-400 text-center"> Projects </h2>  
+    <section id="projects" class="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto mobile-px-4 mobile-py-8">
+        <h2 class="text-3xl font-bold text-center mb-16 section-title mobile-mb-8">Featured Projects</h2>
+        
         {% if projects %}
-            <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {% for project in projects %}
-                    <a href="{% url 'project_detail' project.slug %}" class="bg-gray-800 p-5 rounded-lg block">
-                        <img src="{{ project.preview_image.url }}" alt="{{ project.name }}" class="w-full h-40 object-cover rounded-lg mb-4">
-                        <h3 class="text-xl font-bold"> {{ project.name }}</h3>
-                        <p class="text-gray-400">{{ project.short_description }}.</p>
-                    </a>
-                {% endfor %}
+        <div class="grid md:grid-cols-2 gap-8 mobile-gap-6">
+            {% for project in projects %}
+            <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false" 
+                 class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg card-hover">
+                <div class="relative">
+                    <img src="{{ project.preview_image.url }}" alt="{{ project.name }}" class="w-full h-48 object-cover">
+                    <div x-show="hover" x-transition class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                        <a href="{% url 'project_detail' project.slug %}" class="px-4 py-2 bg-white text-gray-800 rounded-full font-medium hover:bg-purple-500 hover:text-white transition-colors">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+                <div class="p-6 mobile-p-4">
+                    <h3 class="text-xl font-bold mb-2">{{ project.name }}</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">{{ project.short_description }}</p>
+                    <div class="flex flex-wrap gap-2">
+                        {% for tech in project.technologies.all %}
+                        <span class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full">{{ tech.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
+            {% endfor %}
+        </div>
         {% else %}
-            <p class="text-gray-400 text-center mt-4">No projects available.</p>
+        <div class="text-center py-12">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 class="mt-4 text-lg font-medium text-gray-600 dark:text-gray-400">No projects available at the moment</h3>
+            <p class="mt-1 text-gray-500 dark:text-gray-500">Check back later for updates!</p>
+        </div>
         {% endif %}
     </section>
     
-    
     <!-- Experience Section -->
-    <section id="experience" class="p-10 text-center">
-        <h2 class="text-3xl font-bold text-purple-400">Places I've Worked</h2>
-        <div class="mt-6 space-y-4">
-            <div class="bg-gray-800 p-5 rounded-lg">
-                <h3 class="text-xl font-bold">Serverlink</h3>
-                <p class="text-gray-400">Web Developer & IT Support (6 months)</p>
-            </div>
-            <div class="bg-gray-800 p-5 rounded-lg">
-                <h3 class="text-xl font-bold">Rivers State ICT Department</h3>
-                <p class="text-gray-400">IT Support (6 months)</p>
+    <section id="experience" class="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto bg-gray-50 dark:bg-gray-800 rounded-3xl mobile-px-4 mobile-py-8">
+        <h2 class="text-3xl font-bold text-center mb-16 section-title mobile-mb-8">Work Experience</h2>
+        
+        <div class="max-w-3xl mx-auto">
+            <div class="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-purple-500 before:to-transparent mobile-before:hidden">
+                <!-- Serverlink Experience -->
+                <div x-data="{ expanded: false }" class="relative">
+                    <div class="md:flex items-center md:space-x-4 mb-4 mobile-flex-col mobile-items-start">
+                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 shadow-md shrink-0 ml-3 md:ml-0 mobile-mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="md:flex-1 mobile-w-full">
+                            <div class="flex items-center justify-between mobile-flex-col mobile-items-start">
+                                <h3 class="text-lg font-bold mobile-mb-1">Serverlink</h3>
+                                <time class="text-sm text-gray-500 dark:text-gray-400 mobile-mb-2">6 months</time>
+                            </div>
+                            <p class="text-purple-600 dark:text-purple-400">Web Developer & IT Support</p>
+                        </div>
+                    </div>
+                    <div x-show="expanded" x-collapse class="pl-16 md:pl-16 pt-2 pb-4 text-gray-600 dark:text-gray-300 space-y-2 mobile-pl-0">
+                        <p>Developed and maintained web applications using modern technologies.</p>
+                        <p>Provided technical support and troubleshooting for clients.</p>
+                        <p>Collaborated with team members to implement new features.</p>
+                    </div>
+                    <button @click="expanded = !expanded" class="flex items-center text-sm text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 ml-16 md:ml-16 mt-2 mobile-ml-0">
+                        <span x-text="expanded ? 'Show Less' : 'Show More'"></span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform" :class="{ 'rotate-180': expanded }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Rivers State ICT Experience -->
+                <div x-data="{ expanded: false }" class="relative">
+                    <div class="md:flex items-center md:space-x-4 mb-4 mobile-flex-col mobile-items-start">
+                        <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 shadow-md shrink-0 ml-3 md:ml-0 mobile-mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                        </div>
+                        <div class="md:flex-1 mobile-w-full">
+                            <div class="flex items-center justify-between mobile-flex-col mobile-items-start">
+                                <h3 class="text-lg font-bold mobile-mb-1">Rivers State ICT Department</h3>
+                                <time class="text-sm text-gray-500 dark:text-gray-400 mobile-mb-2">6 months</time>
+                            </div>
+                            <p class="text-blue-600 dark:text-blue-400">IT Support</p>
+                        </div>
+                    </div>
+                    <div x-show="expanded" x-collapse class="pl-16 md:pl-16 pt-2 pb-4 text-gray-600 dark:text-gray-300 space-y-2 mobile-pl-0">
+                        <p>Provided technical support for government IT infrastructure.</p>
+                        <p>Assisted in maintaining and troubleshooting computer systems.</p>
+                        <p>Participated in IT projects and system upgrades.</p>
+                    </div>
+                    <button @click="expanded = !expanded" class="flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 ml-16 md:ml-16 mt-2 mobile-ml-0">
+                        <span x-text="expanded ? 'Show Less' : 'Show More'"></span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform" :class="{ 'rotate-180': expanded }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </section>
     
     <!-- Contact Section -->
-    <!-- Contact Section -->
-    <section id="contact" class="p-10 text-center">
-        <h2 class="text-3xl font-bold text-purple-400">Contact</h2>
-        <p class="mt-4 text-gray-300">Let's connect! Feel free to reach out via email or social media.</p>
-        <br>
-        <a href="mailto:winnerbrown9@gmail.com" class="mt-4 px-6 py-2 bg-purple-600 rounded-full hover:bg-purple-700">Email Me</a>
-        <div class="mt-4 flex justify-center space-x-4">
-            <a href="https://x.com/dat_poketguy" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/x.svg" alt="X" class="w-8 invert"></a>
-            <a href="https://github.com/winnerdebest" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/github.svg" alt="GitHub" class="w-8 invert"></a>
-            <a href="https://linkedin.com/in/winner-orluvictor-944175333" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/linkedin.svg" alt="LinkedIn" class="w-8 invert"></a>
+    <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto mobile-px-4 mobile-py-8">
+        <h2 class="text-3xl font-bold text-center mb-16 section-title mobile-mb-8">Get In Touch</h2>
+        
+        <div class="grid md:grid-cols-2 gap-12 mobile-flex-col">
+            <div>
+                <h3 class="text-xl font-bold mb-4 mobile-text-center">Let's talk about your project</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-6 mobile-text-center">
+                    I'm currently available for freelance work and full-time positions. If you have a project that you want to get started, think you need my help with something, or just want to say hi, feel free to reach out.
+                </p>
+                
+                <div class="space-y-4 mobile-space-y-6">
+                    <div class="flex items-start space-x-4 mobile-flex-col mobile-space-x-0 mobile-space-y-2">
+                        <div class="flex-shrink-0 bg-purple-100 dark:bg-purple-900 p-3 rounded-full text-purple-600 dark:text-purple-400 mobile-mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="mobile-text-center">
+                            <h4 class="font-medium">Email</h4>
+                            <a href="mailto:winnerbrown9@gmail.com" class="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">winnerbrown9@gmail.com</a>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4 mobile-flex-col mobile-space-x-0 mobile-space-y-2">
+                        <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full text-blue-600 dark:text-blue-400 mobile-mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                        </div>
+                        <div class="mobile-text-center">
+                            <h4 class="font-medium">Phone</h4>
+                            <a href="tel:+1234567890" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">+123 456 7890</a>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4 mobile-flex-col mobile-space-x-0 mobile-space-y-2">
+                        <div class="flex-shrink-0 bg-pink-100 dark:bg-pink-900 p-3 rounded-full text-pink-600 dark:text-pink-400 mobile-mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <div class="mobile-text-center">
+                            <h4 class="font-medium">Location</h4>
+                            <p class="text-gray-600 dark:text-gray-400">Port Harcourt, Nigeria</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 mobile-mt-10">
+                    <h4 class="font-medium mb-4 mobile-text-center">Follow me</h4>
+                    <div class="flex space-x-4 justify-center">
+                        <a href="https://x.com/dat_poketguy" target="_blank" class="bg-gray-100 dark:bg-gray-700 p-3 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                            </svg>
+                        </a>
+                        <a href="https://github.com/winnerdebest" target="_blank" class="bg-gray-100 dark:bg-gray-700 p-3 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                            </svg>
+                        </a>
+                        <a href="https://linkedin.com/in/winner-orluvictor-944175333" target="_blank" class="bg-gray-100 dark:bg-gray-700 p-3 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <form class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                        <input type="text" id="name" name="name" required class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-all">
+                    </div>
+                    
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                        <input type="email" id="email" name="email" required class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-all">
+                    </div>
+                    
+                    <div>
+                        <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject</label>
+                        <input type="text" id="subject" name="subject" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-all">
+                    </div>
+                    
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
+                        <textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-800 dark:text-white transition-all"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg text-white font-medium hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl">
+                        Send Message
+                    </button>
+                </form>
+            </div>
         </div>
     </section>
-    
     
     <!-- Footer -->
-    <footer class="p-5 bg-gray-800 text-center mt-10">
-        <p class="text-gray-400">© 2025 Winner. All Rights Reserved.</p>
+    <footer class="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800 mobile-px-4 mobile-py-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center mobile-text-center">
+                <div class="mb-6 md:mb-0 mobile-mb-6">
+                    <span class="text-xl font-bold gradient-text">Winner OrluVictor</span>
+                    <p class="text-gray-600 dark:text-gray-400 mt-2">Full-Stack Developer</p>
+                </div>
+                
+                <div class="flex space-x-6 mobile-flex-wrap mobile-justify-center mobile-space-x-4 mobile-space-y-2">
+                    <a href="#about" class="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">About</a>
+                    <a href="#skills" class="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Skills</a>
+                    <a href="#projects" class="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Projects</a>
+                    <a href="#contact" class="text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center mobile-text-center">
+                <p class="text-gray-500 dark:text-gray-500 text-sm mb-4 md:mb-0">© 2025 Winner OrluVictor. All rights reserved.</p>
+                
+                <div class="flex space-x-6 mobile-justify-center mobile-space-x-4">
+                    <a href="#" class="text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-400 transition-colors text-sm">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-400 transition-colors text-sm">Terms of Service</a>
+                </div>
+            </div>
+        </div>
     </footer>
     
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('typewriter', () => ({
+                init() {
+                    new Typewriter(this.$refs.typewriter, {
+                        strings: ['Full-Stack Developer', 'Python Enthusiast', 'Django Expert', 'Problem Solver'],
+                        autoStart: true,
+                        loop: true,
+                    });
+                }
+            }));
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                if (Alpine.store('mobileMenuOpen')) {
+                    Alpine.store('mobileMenuOpen', false);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

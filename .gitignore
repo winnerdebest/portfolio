@@ -5,3 +5,4 @@ code/
 media/
 static/
 node/
+activate_django.bat

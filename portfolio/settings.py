@@ -31,12 +31,12 @@ if ENVIRONMENT == 'development':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['https://portfolio-0k3f.onrender.com', '*']
+ALLOWED_HOSTS = ['https://buildwithwinner.name.ng',]
 
 SITE_URL = env('SITE_URL')
 
 
-CRSF_TRUSTED_ORIGIN = ['https://*']
+CRSF_TRUSTED_ORIGIN = ['https://buildwithwinner.name.ng']
 
 
 # Application definition

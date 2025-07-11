@@ -31,7 +31,7 @@ if ENVIRONMENT == 'development':
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ['https://buildwithwinner.name.ng',]
+ALLOWED_HOSTS = ['https://buildwithwinner.name.ng', "https://winners-portfolio.onrender.com"]
 
 SITE_URL = env('SITE_URL')
 

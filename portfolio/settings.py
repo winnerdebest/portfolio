@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import dj_database_url
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -36,7 +37,9 @@ ALLOWED_HOSTS = ["buildwithwinner.name.ng", "winners-portfolio.onrender.com", "*
 SITE_URL = env('SITE_URL')
 
 
-CRSF_TRUSTED_ORIGIN = ['https://buildwithwinner.name.ng']
+CRSF_TRUSTED_ORIGINS = [
+    'https://buildwithwinner.name.ng'
+    ]
 
 
 # Application definition
@@ -50,9 +53,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'main',
+    
+    # Third-party
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -94,7 +104,9 @@ DATABASES = {
     }
 }
 
-
+POSTGRESS_LOCALLY = False
+if ENVIRONMENT == 'production' or POSTGRESS_LOCALLY:
+    DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
 
 
@@ -150,6 +162,25 @@ else:
     MEDIA_ROOT = BASE_DIR / 'media'
 
 
+
+
+
+# -------------------------------
+# Django REST Framework + JWT
+# -------------------------------
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+}
+
+# -------------------------------
+# CORS settings (for Next.js frontend)
+# -------------------------------
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://buildwithwinner.name.ng",
+]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = 'static/'

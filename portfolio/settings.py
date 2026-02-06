@@ -38,7 +38,8 @@ SITE_URL = env('SITE_URL')
 
 
 CRSF_TRUSTED_ORIGINS = [
-    'https://buildwithwinner.name.ng'
+    'https://buildwithwinner.name.ng',
+    "winners-portfolio.onrender.com",
     ]
 
 
@@ -104,7 +105,7 @@ DATABASES = {
     }
 }
 
-POSTGRESS_LOCALLY = False
+POSTGRESS_LOCALLY = True
 if ENVIRONMENT == 'production' or POSTGRESS_LOCALLY:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 

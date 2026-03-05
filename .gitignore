@@ -6,3 +6,11 @@ media/
 static/
 node/
 activate_django.bat
+
+# Data and database files
+*.json
+*.sqlite3
+*.sqlite3-journal
+.env
+*.backup
+db.sqlite3

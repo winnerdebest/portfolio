@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.contrib.sitemaps.views import sitemap
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from main.sitemaps import StaticViewSitemap, ProjectSitemap  # Import from your main app
 
 
@@ -29,6 +29,9 @@ def robots_txt(request):
     ROBOTS_TXT = "User-agent: *\nDisallow:"
     return HttpResponse(ROBOTS_TXT, content_type="text/plain")
 
+def health_check(request):
+    return JsonResponse({"status": "ok"})
+
 sitemaps = {
     'static': StaticViewSitemap,
     'projects': ProjectSitemap,
@@ -39,6 +42,7 @@ urlpatterns = [
     path('', include('main.urls')),  # Include your app's URLs
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps, 'content_type': 'application/xml'}, name='sitemap'),
     path("robots.txt", robots_txt, name="robots_txt"),
+    path("health/", health_check, name="health_check"),
     
     
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),

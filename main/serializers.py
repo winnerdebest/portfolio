@@ -32,6 +32,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             'technologies',
             'images',
             'project_link',
+            'is_featured',
             'updated_at',
         ]
 

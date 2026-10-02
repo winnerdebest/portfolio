@@ -205,18 +205,15 @@ class ProjectUpdateDeleteView(APIView):
             updated_project = serializer.save()
 
             if gallery_images is not None and isinstance(gallery_images, list):
+                # Delete existing gallery images and recreate in the exact user-specified order
+                ProjectImage.objects.filter(project=updated_project).delete()
                 img_objs = []
                 for item in gallery_images:
                     url = item.get('image') if isinstance(item, dict) else item
                     if url and isinstance(url, str):
-                        # Find or create
-                        existing = ProjectImage.objects.filter(project=updated_project, image=url).first()
-                        if not existing:
-                            existing = ProjectImage.objects.create(project=updated_project, image=url)
-                        img_objs.append(existing)
+                        pi = ProjectImage.objects.create(project=updated_project, image=url)
+                        img_objs.append(pi)
                 updated_project.images.set(img_objs)
-                # Cleanup orphaned images
-                ProjectImage.objects.filter(project=updated_project).exclude(id__in=[i.id for i in img_objs]).delete()
 
             return Response(ProjectSerializer(updated_project).data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
